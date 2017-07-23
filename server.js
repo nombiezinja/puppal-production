@@ -57,6 +57,7 @@ app.get('/', (req, res) => {
   res.render(__dirname + '/public/views/index');
 });
 
+app.set('views','./public/views');
 
 app.use("/events", eventRoutes(dbHelper));
 app.use("/user", userRoutes(dbHelper));
