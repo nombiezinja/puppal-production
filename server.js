@@ -34,7 +34,9 @@ app.use(session);
 // Use shared session middleware for socket.io
 // setting autoSave:true
 io.use(sharedsession(session, {
-    autoSave:true
+    reSave:true,
+    secret: "my-secret-is-no-secret",
+    saveUninitialized: true
 }));
 
 app.use(morgan('dev'));
