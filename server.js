@@ -43,7 +43,7 @@ app.use(knexLogger(knex));
 
 app.set('view engine', 'ejs');
 
-app.use('/styles', express.static('../styles/'));
+app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -54,7 +54,7 @@ app.use('/chatReact', express.static('../chat-client/build'));
 app.locals.user = null;//prepare the object for nav bar, add data to user when logged in and signed up
 
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render(__dirname + '/public/views/index');
 });
 
 
