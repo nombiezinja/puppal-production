@@ -11,10 +11,10 @@ module.exports = (dbHelper) => {
   });
 
   router.get("/user", (req, res) => {
-    const user = {
+    const user = req.session.user?{
       id: req.session.user.id,
       username: req.session.user.username
-    }
+      }: null;
     res.json(user);
   });
 
