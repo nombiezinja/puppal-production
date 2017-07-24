@@ -147,8 +147,7 @@ $(document).ready(function(){
   //   })
   // }
 
-  // {"signedRequest":"https://puppals.s3.amazonaws.com/2c.jpg?AWSAccessKeyId=AKIAIW5E3JQLOFRTRJNA&Content-Type=image%2Fjpeg&Expires=1500872320&Signature=wWGzFZ80fdxd8Cv4Mfs3xfzU8oY%3D&x-amz-acl=public-read"
-  // ,"url":"https://puppals.s3.amazonaws.com/2c.jpg"}
+
 
   function uploadFile(file, signedRequest, url){
     const xhr = new XMLHttpRequest();
