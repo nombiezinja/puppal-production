@@ -5854,7 +5854,7 @@ button.close {
   background-color: #3682BC; }
 
 .navbar-custom {
-  background-color: rgba(74, 189, 172, 0);
+  background-color: rgba(119, 201, 212, 0);
   transition-duration: 500ms;
   transition-timing-function: ease-out;
   margin-bottom: 0px;
@@ -5865,7 +5865,7 @@ button.close {
   border-bottom-color: #dddee1;
   font-family: Helvetica Neue; }
   .navbar-custom.small {
-    background-color: #4ABDAC;
+    background-color: #77c9d4;
     -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
     -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); }
@@ -5876,13 +5876,14 @@ button.close {
   color: #ffffff !important;
   font-weight: 800;
   letter-spacing: 0.15em;
+  margin: 10px 0 0;
   font-family: 'Roboto', sans-serif; }
 
 .navbar-custom .navbar-brand:hover {
   color: #ffffff; }
 
 .navbar-custom .nav {
-  padding: 8px 0; }
+  padding: 15px 0px; }
 
 .navbar-custom .navbar-nav > li > a {
   color: white;
@@ -5951,7 +5952,7 @@ button.close {
   border-radius: 50%; }
 
 .back-to-top i {
-  color: #4ABDAC;
+  color: #77c9d4;
   font-size: 15px;
   display: block;
   line-height: 33px; }
@@ -5962,7 +5963,7 @@ footer {
 .sidebar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   position: fixed;
-  top: 65px;
+  top: 70px;
   right: 0;
   bottom: 0;
   z-index: 100;
@@ -6191,7 +6192,7 @@ a.largedetails-eventpage {
   text-align: center; }
 
 .mapcontainer {
-  top: 25px;
+  top: 40px;
   right: 380px;
   bottom: 0;
   position: fixed;
@@ -6367,7 +6368,7 @@ a.largedetails-eventpage {
 .right_sidebar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   position: fixed;
-  top: 65px;
+  top: 70px;
   right: 0;
   bottom: 0px;
   z-index: 100;
@@ -6380,7 +6381,7 @@ a.largedetails-eventpage {
 .left_sidebar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   position: fixed;
-  top: 65px;
+  top: 70px;
   left: 0;
   bottom: 0px;
   z-index: 100;
@@ -6416,9 +6417,6 @@ a.largedetails-eventpage {
 .quote {
   display: inline; }
 
-.fa quote fa-quote-left {
-  display: flex; }
-
 .pup-info {
   border: 1px solid lightgrey; }
 
@@ -6428,7 +6426,7 @@ a.largedetails-eventpage {
 .detail_right_sidebar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   position: fixed;
-  top: 65px;
+  top: 70px;
   right: 0;
   bottom: 0px;
   z-index: 100;
@@ -6439,7 +6437,6 @@ a.largedetails-eventpage {
   overflow-y: auto; }
 
 .seperator {
-  margin-top: 20px;
   border-bottom: 1px solid #ddd; }
 
 .detail-rsvp {
@@ -6450,37 +6447,25 @@ a.largedetails-eventpage {
   padding-right: 10px; }
 
 .current-chat-area {
-  max-width: 380px;
+  max-width: 370px;
   padding-top: 10px;
   height: 10vh; }
 
 .current-chat-footer {
   position: fixed;
   bottom: 0;
-  max-width: 380px; }
+  max-width: 370px; }
 
 .pup-avatar {
   border-radius: 50%;
   width: 70px;
-  height: 70px;
-  margin-bottom: 10px; }
+  height: 70px; }
 
 .media-list {
   padding-bottom: 20px; }
 
 .emoji-toggle {
   height: 34px; }
-
-.flex-container {
-  display: flex; }
-
-.flex-item {
-  flex: 1; }
-
-a.pup-link {
-  color: #555;
-  text-decoration: none;
-  zoom: 1; }
 
 .emoji-mart,
 .emoji-mart * {
@@ -6495,7 +6480,7 @@ a.pup-link {
   border: 1px solid #d9d9d9;
   border-radius: 5px;
   background: #fff;
-  max-width: 350px; }
+  max-width: 340px; }
 
 .emoji-mart .emoji-mart-emoji {
   padding: 6px; }
