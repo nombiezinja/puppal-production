@@ -99,9 +99,15 @@ $(document).ready(function(){
     statuses.forEach((status) => {
       var $timeSpan = $('<span>', {class: 'status-time', text: moment(status.created_at).format("ddd MMMM Do YYYY") + " at " + moment(status.created_at).format("h:mm a")})
       var $textSpan = $('<span>', {class: 'status-text',text: " | " + status.content});
+      if(status.media_url) {
+        var $img = $('<img>', {class: 'status-img', src:status.media_url})
+      }
       var $div = $('<div>')
       $div.append($timeSpan).append($textSpan)
-      $section.prepend($div)
+      if ($img){
+        $div.append($img)
+      }
+      $section.append($div)
     })
     return $section;
   }
@@ -119,36 +125,6 @@ $(document).ready(function(){
       renderStatuses(statuses);
     })
   }
-
-  $('#file-input').on('change', function(event){
-    console.log($('#file-input')[0].files[0])
-    var files = $('#file-input')[0].files;
-    var file = files[0];
-    if(file == null){
-      return alert('No file selected')
-    }
-    getSignedRequest(file)
-  })
-
-  function getSignedRequest(file){
-    $.ajax({
-      url: `/s3?file-name=${file.name}&file-type=${file.type}`
-    }).done(function(data){
-      var response = JSON.parse(data);
-      uploadFile(file, response.signedRequest, response.url);
-    })
-  }
-
-  // function uploadFile(file, signedRequest, url){
-  //   $.ajax({
-  //     url: signedRequest,
-  //     method: 'PUT',
-  //     data: ''
-  //   })
-  // }
-
-  // {"signedRequest":"https://puppals.s3.amazonaws.com/2c.jpg?AWSAccessKeyId=AKIAIW5E3JQLOFRTRJNA&Content-Type=image%2Fjpeg&Expires=1500872320&Signature=wWGzFZ80fdxd8Cv4Mfs3xfzU8oY%3D&x-amz-acl=public-read"
-  // ,"url":"https://puppals.s3.amazonaws.com/2c.jpg"}
 
   function uploadFile(file, signedRequest, url){
     const xhr = new XMLHttpRequest();
@@ -169,23 +145,36 @@ $(document).ready(function(){
 
   $('.status-form').on('submit', function(event){
     event.preventDefault();
-    var $inputLength = $('.status-form textarea').val().length;
-    if($inputLength === 0) {
-      alert('Hey bud, your status can\'t be empty(Ծ‸ Ծ)')
-      return;
-    } else if($inputLength > 140) {
-      alert('Whoa there friendo, your status is over 140 characters ◔_◔');
-      return;
-    } else {
-      $.ajax({
-        method: 'POST',
-        url: `/api/pet/${id}`,
-        data: $(this).serialize()
-      }).done(function(){
-        $('.status-form textarea').val('');
-        loadStatuses();
-      });
-    }
+    console.log($('.status-form textarea').val())
+    console.log($('#file-input')[0].files[0])
+    var files = $('#file-input')[0].files;
+    var file = files[0];
+    $.ajax({
+      url: `/s3?file-name=${file.name}&file-type=${file.type}`
+    }).done(function(data){
+      var response = JSON.parse(data);
+      uploadFile(file, response.signedRequest, response.url);
+
+      var $inputLength = $('.status-form textarea').val().length;
+      if($inputLength === 0) {
+        alert('Hey bud, your status can\'t be empty(Ծ‸ Ծ)')
+        return;
+      } else if($inputLength > 140) {
+        alert('Whoa there friendo, your status is over 140 characters ◔_◔');
+        return;
+      } else {
+        $.ajax({
+          method: 'POST',
+          url: `/api/pet/${id}`,
+          data: {content: $('.status-form textarea').val(),
+            media_url: response.url}
+        }).done(function(){
+          $('.status-form textarea').val('');
+          $('.status-form file-input').val('');
+          loadStatuses();
+        });
+     }
+    })
   });
 
   loadStatuses();
