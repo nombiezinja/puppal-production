@@ -126,6 +126,7 @@ $(document).ready(function(){
     })
   }
 
+
   function uploadFile(file, signedRequest, url){
     const xhr = new XMLHttpRequest();
     xhr.open('PUT', signedRequest);
