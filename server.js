@@ -81,7 +81,7 @@ io.set('authorization', function (handshakeData, callback) {
   callback(null, true);
 });
 
-app.get('/sign-s3', (req, res) => {
+app.get('/s3', (req, res) => {
   const s3 = new aws.S3();
   const fileName = req.query['file-name'];
   const fileType = req.query['file-type'];

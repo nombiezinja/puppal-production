@@ -9,7 +9,7 @@ $(document).ready(function(){
     $('.new-status').slideToggle('fast');
     $('.edit-profile').slideToggle('fast');
     $('.back').slideToggle('fast');
-    $('.seperator').slideToggle('fast');    
+    $('.seperator').slideToggle('fast');
     $('.edit').hide();
   });
 
@@ -18,7 +18,7 @@ $(document).ready(function(){
     $('.statuses').slideToggle('fast');
     $('.new-status').slideToggle('fast');
     $('.edit-profile').slideToggle('fast');
-    $('.seperator').slideToggle('fast');        
+    $('.seperator').slideToggle('fast');
     $('.back').hide();
     $('.edit').slideToggle('fast');
   });
@@ -118,6 +118,53 @@ $(document).ready(function(){
     }).done(function(statuses){
       renderStatuses(statuses);
     })
+  }
+
+  $('#file-input').on('change', function(event){
+    console.log($('#file-input')[0].files[0])
+    var files = $('#file-input')[0].files;
+    var file = files[0];
+    if(file == null){
+      return alert('No file selected')
+    }
+    getSignedRequest(file)
+  })
+
+  function getSignedRequest(file){
+    $.ajax({
+      url: `/s3?file-name=${file.name}&file-type=${file.type}`
+    }).done(function(data){
+      var response = JSON.parse(data);
+      uploadFile(file, response.signedRequest, response.url);
+    })
+  }
+
+  // function uploadFile(file, signedRequest, url){
+  //   $.ajax({
+  //     url: signedRequest,
+  //     method: 'PUT',
+  //     data: ''
+  //   })
+  // }
+
+  // {"signedRequest":"https://puppals.s3.amazonaws.com/2c.jpg?AWSAccessKeyId=AKIAIW5E3JQLOFRTRJNA&Content-Type=image%2Fjpeg&Expires=1500872320&Signature=wWGzFZ80fdxd8Cv4Mfs3xfzU8oY%3D&x-amz-acl=public-read"
+  // ,"url":"https://puppals.s3.amazonaws.com/2c.jpg"}
+
+  function uploadFile(file, signedRequest, url){
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', signedRequest);
+    xhr.onreadystatechange = () => {
+      if(xhr.readyState === 4){
+        if(xhr.status === 200){
+          document.getElementsByClassName('preview').src = url;
+          document.getElementsByClassName('status-url').value = url;
+        }
+        else{
+          alert('Could not upload file.');
+        }
+      }
+    };
+    xhr.send(file);
   }
 
   $('.status-form').on('submit', function(event){

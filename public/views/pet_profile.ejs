@@ -56,9 +56,9 @@
           <section class="new-status">
             <h2>Update pup's status</h2>
             <form class="status-form" method="POST" action= "/pet/<%= pup.id %>">
-              <textarea name="text" placeholder="Ehhh What's up Doc?"></textarea>
-              <input type="submit" value="Update">
-              <input type="file" id="file-input">
+              <input class="form-control" type="file" id="file-input">
+              <img class="preview" src="/styles/pictures/404.png">
+              <input type="hidden" class="status-url" name="status-url" value="/styles/pictures/404.png">
               <textarea class="form-control" name="text" placeholder="Ehhh What's up Doc?"></textarea>
               <br>
               <input class="btn btn-primary btn-block" type="submit" value="Update">
