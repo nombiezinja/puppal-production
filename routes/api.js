@@ -65,17 +65,14 @@ module.exports = (dbHelper) => {
   })
 
   router.get('/pet/:id', (req, res) => {
-
     dbHelper.getPupStatuses(req.params.id).then((results) => {
       res.json(results);
     })
   });
 
   router.post("/pet/:id", (req, res) => {
-    console.log('post status',req.body)
     dbHelper.makePupStatus(req.params.id, req.body)
       .then((results) => {
-        console.log(results)
         res.json(results)
       })
   });
