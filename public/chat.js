@@ -41855,8 +41855,10 @@ var ChatBar = function (_Component) {
     };
 
     _this.toggleHidden = function () {
-      _this.setState({
-        isHidden: !_this.state.isHidden
+      _this.setState(function (prevState) {
+        return {
+          isHidden: !prevState.isHidden
+        };
       });
     };
 

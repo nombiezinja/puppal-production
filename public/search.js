@@ -46604,7 +46604,7 @@ var SmallDetails = function (_Component) {
     _this.fetchRsvp = function () {
       return _axios2.default.get('/api/attend/' + _this.props.event.id).then(function (response) {
         _this.setState({ user_going: response.data });
-        if (_this.props.user.id) {
+        if (_this.props.user) {
           var users_going = _this.state.user_going;
           users_going.forEach(function (user) {
             if (_this.props.user.id === user.user_id) {
@@ -47636,7 +47636,7 @@ var LargeDetails = function (_Component) {
     _this.fetchRsvp = function () {
       return _axios2.default.get('/api/attend/' + _this.props.event.id).then(function (response) {
         _this.setState({ user_going: response.data });
-        if (_this.props.user.id) {
+        if (_this.props.user) {
           var users_going = _this.state.user_going;
           users_going.forEach(function (user) {
             if (_this.props.user.id === user.user_id) {
