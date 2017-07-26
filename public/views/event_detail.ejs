@@ -94,11 +94,7 @@ V              <button id="editEvent" class="btn btn-primary">Edit Event</button
               <% } %>
               <div id="react-root">
               </div>
-              <% if (process.env.NODE_ENV === 'production') { %>
-                <script src="/chatReact/chat.js"></script>
-              <% } else { %>
-                <script src="http://localhost:10001/chat.js"></script>
-              <% } %>
+                <script src="/chat.js"></script>
             </div>
           </div>
         </div>
