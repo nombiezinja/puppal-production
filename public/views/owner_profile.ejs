@@ -21,6 +21,7 @@
 </head>
 
 <body>
+
   <% include partials/_navbar.ejs %>
   <div class="animationload">
     <div class="loader">&nbsp;</div>
@@ -41,7 +42,7 @@
               <% pups.forEach(function(item){ %>
                 <% const pup = item; %>
                   <a href="/pet/<%=pup.id%>">
-                    <img class="pup-pic"src="<%= pup.avatar_url %>" style="width:100px">
+                    <img class="pup-pic" src="<%= pup.avatar_url %>" style="width:100px">
                     <h2><%= pup.name %></h2>
                   </a>
                   <hr>
@@ -96,7 +97,7 @@
                     <% include partials/_event.ejs %>
                   <% }) %>
                 <%}else{%>
-                  <p>No Events</p>
+                  <h3>No Events</h3>
                 <%}%>
             </div>
           </div>
