@@ -22,12 +22,22 @@
 
 <body>
   <% include partials/_navbar.ejs %>
+  <div class="animationload">
+    <div class="loader">&nbsp;</div>
+  </div>
+  <script>
+    $(window).ready(function() {
+        $('.animationload').hide();
+    });
+  </script>
   <script>var id = <%- JSON.stringify(person.id) %>;</script>
     <div class="registerdiv">
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-3 text-center">
             <div class="left_sidebar">
+              <h3>My Pups</h3>
+              <div class="seperator"></div>
               <% pups.forEach(function(item){ %>
                 <% const pup = item; %>
                   <a href="/pet/<%=pup.id%>">

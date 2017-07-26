@@ -7,11 +7,11 @@ const bcrypt = require("bcrypt");
 
 module.exports = (dbHelper) => {
 
-  router.get('/login', (req, res) => {
+  router.get("/login", (req, res) => {
     res.render('login', {error: null});
   });
 
-  router.post('/login', (req, res) => {
+  router.post("/login", (req, res) => {
     console.log(req.body);
     dbHelper.getUserByEmail(req.body.email)
     .then((result)=>{
@@ -49,26 +49,32 @@ module.exports = (dbHelper) => {
   });
 
   router.post("/signup", (req, res) => {
-    dbHelper.createUser(req.body)
-    .then((id)=>{
-      req.session.user = {
-        id: id,
-        avatar_url: req.body.avatar_url,
-        username: req.body.username
-      }
-      res.redirect('/');
-    })
-    .catch((error) => {
-      console.log(error);
-      res.render('signup', {
-        error: "Username or email was taken"
+    if (req.body.name && req.body.username && req.body.password && req.body.email){
+      dbHelper.createUser(req.body)
+      .then((id)=>{
+        req.session.user = {
+          id: id,
+          avatar_url: req.body.avatar_url,
+          username: req.body.username
+        }
+        res.redirect('/');
       })
-    });
+      .catch((error) => {
+        console.log(error);
+        res.render('signup', {
+          error: "Username or email was taken"
+        })
+      });
+    } else {
+      res.render('signup', {
+        error: "Please fill out all the fields"
+      })
+    }
   });
 
   router.get("/logout", (req, res) => {
     req.session.user = null;
-    res.redirect('/');
+    res.redirect('back');
   });
 
   return router;

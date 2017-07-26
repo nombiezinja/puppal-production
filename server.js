@@ -64,8 +64,11 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  console.log(res.locals.user);
-  res.render(__dirname + '/public/views/index');
+  dbHelper.getRandomPup()
+    .then((pup) => {
+      console.log(pup.rows[0]);
+      res.render(__dirname + '/public/views/index', {pup:pup.rows[0]});
+    })
 });
 
 app.set('views','./public/views');
@@ -117,9 +120,10 @@ io.on('connection', function (socket) {
     dbHelper.getMessagesByEventId(eventId)// find all messages under this event
       .then((results) => {
       // console.log( "all event posts: ", results);
-        const messages = [];
+        let messages = [];
         results.forEach(function(message){
           messages.push({
+            user_id: message.user_id,
             message: message.content,
             avatar_url: message.avatar_url,
             username: message.username,
@@ -164,6 +168,12 @@ io.on('connection', function (socket) {
   });
 });
 
+app.use("/404", (req, res, next) => {
+  res.status(404).render("404");
+})
+app.use("/500", (req, res, next) => {
+  res.status(500).render("500");
+})
 app.use((req, res, next) => {
   res.status(404).render("404");
 })

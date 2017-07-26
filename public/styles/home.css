@@ -1,0 +1,80 @@
+.featured-date {
+  font-size: 2.5rem;
+  color: black; }
+
+.featured-time {
+  display: block;
+  font-size: 2rem;
+  color: black; }
+
+.featured-location {
+  display: block;
+  font-size: 2rem;
+  color: black; }
+
+.featured-body {
+  margin: 8px 0;
+  text-align: center;
+  color: black; }
+
+.featured-heading {
+  color: black;
+  font-weight: 400; }
+
+.featured-title {
+  color: black;
+  font-size: 3em;
+  font-weight: 400; }
+
+.featured-img {
+  width: 45%;
+  height: 45%; }
+
+.featured-map {
+  width: 85%;
+  height: 85%; }
+
+.btn-primary:disabled {
+  background-color: #5cb85c; }
+
+.btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled.focus, .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary:hover,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary.focus {
+  background-color: #5cb85c; }
+
+a.error-link {
+  color: white;
+  font-weight: 400;
+  text-decoration: none; }
+
+.error-btn {
+  border-radius: 25px; }
+
+.oops {
+  font-size: 150px; }
+
+.btn {
+  border: 0px solid transparent; }
+
+.btn-outline {
+  border: 2px solid #e0e0e0;
+  color: white;
+  font-weight: 300;
+  padding: 15px 25px; }
+  .btn-outline:hover {
+    color: white; }
+  .btn-outline:active {
+    color: white; }
+  .btn-outline:focus {
+    color: white; }
+
+.btn-find {
+  background: #E77078;
+  border: 2px solid transparent;
+  font-weight: 300;
+  padding: 15px 25px; }
+
+.btn-find:hover {
+  background: #bc565d;
+  border: 2px solid #bc565d; }

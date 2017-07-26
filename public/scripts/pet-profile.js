@@ -1,5 +1,14 @@
-
 $(document).ready(function(){
+
+  $('.statuses').on('click', 'a.status-delete', function(event){
+    status_id = $(this).data().id
+    $.ajax({
+      url: `/api/pet/delete/status/${status_id}`,
+      method: 'POST'
+    }).done(function(){
+      loadStatuses()
+    });
+  });
 
 //profile update
 
@@ -25,7 +34,7 @@ $(document).ready(function(){
 
   function createProfileElements(profile) {
 
-    var sex = (profile.sex == "Male" || profile.sex == "male") ? 'Boy' : 'Girl'
+    var sex = (profile.sex == "Male") ? 'Boy' : 'Girl'
     var neutered = (profile.neutered == true) ? 'Neutered': 'Not Neutered'
 
     var $div1 = $("<div>", {class: "puppy-card"})
@@ -102,11 +111,14 @@ $(document).ready(function(){
       if(status.media_url) {
         var $img = $('<img>', {class: 'status-img', src:status.media_url})
       }
-      var $div = $('<div>')
+      var $div = $('<div>', {class:'status'})
       $div.append($timeSpan).append($textSpan)
       if ($img){
         $div.append($img)
       }
+      var $a = $('<a>', {class: 'status-delete', text: 'Delete', "data-id" : status.id})
+
+      $div. prepend($a)
       $section.append($div)
     })
     return $section;
@@ -143,6 +155,7 @@ $(document).ready(function(){
     };
     xhr.send(file);
   }
+
 
   $('.status-form').on('submit', function(event){
     event.preventDefault();

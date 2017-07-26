@@ -16,7 +16,8 @@ module.exports = (dbHelper) => {
 
   router.post("/new", (req, res, next)=> {
     if(!req.session.user){
-      req.render('404');
+      res.redirect("/404");
+      return;
     }
     //get coordinates of location
     geocoder.geocode(req.body.location, (err, data) => {
@@ -51,17 +52,25 @@ module.exports = (dbHelper) => {
         })
         .catch((errors) => {
           console.log(errors);
-          next();
+          res.redirect("/500");
         });
     });
+  }),
 
-
+  router.get('/featured', (req, res, next) => {
+    dbHelper.getEventIdByTitle()
+    .then((event) => {
+      res.redirect(`/events/${event[0].id}`);
+    });
   }),
 
   router.get("/:id", (req, res, next) => {
 
     dbHelper.getEventDetailsByEventId(req.params.id)
       .then((results) => {
+        if(results.length === 0){
+          res.redirect("/404");
+        }
         const longitude = results[0].events.longitude
         const latitude = results[0].events.latitude
         const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=13&size=600x400&markers=color:red%7C${latitude},${longitude}&key=AIzaSyDkfH1vIxG1NVhhTaELFJH_m6QE-LOEnGI`
@@ -75,9 +84,9 @@ module.exports = (dbHelper) => {
             rsvped = true;
           }
         })
-        dbHelper.getUserByIds(userIDs)
+        return dbHelper.getUserByIds(userIDs)
           .then((users) => {
-            dbHelper.getPupsByUserIds(userIDs)
+            return dbHelper.getPupsByUserIds(userIDs)
               .then((pups) => {
                 req.session.eventId = req.params.id;
                 const userWithPup = users.map((user)=>{
@@ -89,7 +98,6 @@ module.exports = (dbHelper) => {
                   }
                   return user;
                 });
-                console.log("rsvped is ", rsvped);
                 let templateVars = {
                     events: results[0].events,
                     users: users,
@@ -106,7 +114,7 @@ module.exports = (dbHelper) => {
       })
       .catch((errors) => {
         console.log(errors);
-        next();
+        res.redirect("/500");
       });
   });
   //pass along in http
@@ -130,7 +138,7 @@ module.exports = (dbHelper) => {
         })
         .catch((error) => {
           console.log(error);
-          res.status(500).end("Sorry we messed up");
+          res.redirect("/500");
         });
     } else {
       res.redirect('/user/login');
@@ -139,31 +147,27 @@ module.exports = (dbHelper) => {
 
   router.post('/:id/cancel', (req, res, next) => {
     if(!req.session.user){
-      next();
+      res.redirect("/404");
+      return;
     }
     const user_id = req.session.user.id;
-    if(user_id) {
-      console.log(user_id, "and shit");
-      console.log(req.params.id, "and shit");
-      const pupIdPromise = dbHelper.getPupsIdsByUserId(user_id);
-      const userCancelPromise = dbHelper.cancelRSVP(req.params.id, user_id);
-      const cancelPupPromise = pupIdPromise
-        .then((pupIds) => {
-          pupIds.forEach((pupId) => {
+    const pupIdPromise = dbHelper.getPupsIdsByUserId(user_id);
+    const userCancelPromise = dbHelper.cancelRSVP(req.params.id, user_id);
+    const cancelPupPromise = pupIdPromise
+      .then((pupIds) => {
+        return Promise.all(pupIds.map((pupId) => {
             return dbHelper.deleteEventPups(pupId.id, req.params.id);
-          });
-      });
-      Promise.all([userCancelPromise, cancelPupPromise])
-      .then(() => {
-        res.redirect('back');
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(500).end("Sorry we messed up");
-      });
-    }else{
-      res.json('cancel failed');
-    }
+          })
+        );
+    });
+    Promise.all([userCancelPromise, cancelPupPromise])
+    .then((result) => {
+      res.redirect('back');
+    })
+    .catch((error) => {
+      res.redirect("/500");
+    });
+
   });
 
   router.post('/:id/delete', (req, res, next) => {
@@ -172,7 +176,6 @@ module.exports = (dbHelper) => {
     }
     dbHelper.getEventById(req.params.id)
       .then((result) => {
-        console.log(result);
         if(result[0].creator_user_id!==req.session.user.id){
           req.status(403).end("permission denied");
         }else{
@@ -180,15 +183,18 @@ module.exports = (dbHelper) => {
         }
       })
       .then((result) => {
-        console.log(result);
         res.redirect(`/owner/${req.session.user.id}`);
+      })
+      .catch((error)=>{
+        console.log(error);
+        res.redirect("/500");
       });
   });
 
+
   router.post('/:id/edit', (req, res, next) => {
-    console.log(req.body);
     if(!req.session.user){
-      next();
+      res.redirect("/404");
     }else{
     dbHelper.getEventById(req.params.id)
       .then((result) => {
@@ -215,7 +221,7 @@ module.exports = (dbHelper) => {
       })
       .catch((error) =>{
         console.log(error);
-        res.status(500).end("Sorry we messed up");
+        res.redirect("/500");
       });
     }
   });

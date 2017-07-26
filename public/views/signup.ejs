@@ -16,6 +16,14 @@
 
 <body>
   <% include partials/_navbar.ejs%>
+  <div class="animationload">
+    <div class="loader">&nbsp;</div>
+  </div>
+  <script>
+    $(window).ready(function() {
+        $('.animationload').hide();
+    });
+  </script>
     <div class="container">
       <div class="row">
         <div class="registerdiv">
@@ -30,7 +38,7 @@
                   <p>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-address-book fa" aria-hidden="true"></i></span>
-                      <input class="form-control" type="text" name="avatar_url" placeholder="Avatar URL">
+                      <input class="form-control" type="url" name="avatar_url" placeholder="Avatar URL">
                     </div>
                   </p>
                   <p>
@@ -48,21 +56,25 @@
                   <p>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                      <input class="form-control" type="text" name="email" placeholder="Email">
+                      <input class="form-control" type="email" name="email" placeholder="Email">
                     </div>
                   </p>
                   <p>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
-                      <input class="form-control" type="text" name="password" placeholder="Password">
+                      <input class="form-control" type="password" name="password" placeholder="Password">
                     </div>
                   </p>
-                  <button type="submit" class="btn btn-lg btn-primary btn-block">Sign Up</button>
+                  <button type="submit" class="signup btn btn-lg btn-primary btn-block">Sign Up</button>
                 </form>
           </div>
         </div>
       </div>
     </div>
 </body>
-
+<script>
+  $('.form-group').on('submit', function() {
+    $('.signup').prop('disabled', true)
+  })
+</script>
 </html>

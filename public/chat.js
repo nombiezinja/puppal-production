@@ -41415,6 +41415,7 @@ var MessageList = function (_Component) {
                   );
                 } else {
                   return _react2.default.createElement(_Message2.default, { key: item.id,
+                    user_id: item.user_id,
                     username: item.username,
                     avatar_url: item.avatar_url,
                     message: item.message,
@@ -41501,7 +41502,7 @@ var Message = function (_Component) {
         null,
         _react2.default.createElement(
           'a',
-          { className: 'pull-left', href: '#' },
+          { className: 'pull-left', href: '/owner/' + this.props.user_id },
           _react2.default.createElement('img', { className: 'media-object img-circle', src: this.props.avatar_url, width: 50 })
         ),
         _react2.default.createElement(

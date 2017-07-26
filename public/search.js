@@ -43817,6 +43817,10 @@ var _Map = __webpack_require__(456);
 
 var _Map2 = _interopRequireDefault(_Map);
 
+var _Loading = __webpack_require__(674);
+
+var _Loading2 = _interopRequireDefault(_Loading);
+
 var _axios = __webpack_require__(69);
 
 var _axios2 = _interopRequireDefault(_axios);
@@ -43896,6 +43900,7 @@ var App = function (_React$Component) {
     };
 
     _this.state = {
+      loading: true,
       events: [],
       user: {},
       dates: {
@@ -43907,14 +43912,21 @@ var App = function (_React$Component) {
   }
 
   _createClass(App, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.setState({ loading: true });
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
+      this.setState({ loading: false });
       this.fetchData();
     }
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
+      var loading = this.state.loading;
+      var mapDiv = _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(_Map2.default, { events: this.state.events,
@@ -43925,6 +43937,7 @@ var App = function (_React$Component) {
         }),
         _react2.default.createElement(_SearchBar2.default, { dates: this.state.dates, handleDayChange: this.handleDayChange })
       );
+      return loading ? _react2.default.createElement('img', { src: 'http://iamchriscollins.com/loading.gif' }) : mapDiv;
     }
   }]);
 
@@ -46303,8 +46316,8 @@ var SearchBoxGoogleMap = (0, _lib.withGoogleMap)(function (props) {
         position: { lat: parseFloat(e.latitude), lng: parseFloat(e.longitude) },
         onClick: props.onMarkerClick,
         icon: {
-          url: 'http://i.imgur.com/sWlsDsZ.png',
-          scaledSize: new google.maps.Size(55, 65)
+          url: 'http://i.imgur.com/pRdsr4R.png',
+          scaledSize: new google.maps.Size(65, 75)
         }
       });
     })
@@ -46515,17 +46528,27 @@ var SideBar = function (_Component) {
       });
     }
   }, {
+    key: 'CancelRSVP',
+    value: function CancelRSVP(event_id) {
+      var _this3 = this;
+
+      return _axios2.default.post('/api/' + event_id + '/cancel').then(function (response) {
+        return _this3.props.fetchAppData();
+      });
+    }
+  }, {
     key: 'renderEvents',
     value: function renderEvents() {
-      var _this3 = this;
+      var _this4 = this;
 
       return this.props.events.map(function (e) {
         return _react2.default.createElement(_SmallDetails2.default, {
           event: e,
-          user: _this3.props.user,
+          user: _this4.props.user,
           key: e.id,
-          toggleHidden: _this3.toggleHidden.bind(_this3, e),
-          RSVP: _this3.RSVP.bind(_this3)
+          toggleHidden: _this4.toggleHidden.bind(_this4, e),
+          RSVP: _this4.RSVP.bind(_this4),
+          CancelRSVP: _this4.CancelRSVP.bind(_this4)
         });
       });
     }
@@ -46536,7 +46559,8 @@ var SideBar = function (_Component) {
         event: this.state.selectedEvent,
         user: this.props.user,
         toggleHidden: this.toggleHidden.bind(this),
-        RSVP: this.RSVP.bind(this)
+        RSVP: this.RSVP.bind(this),
+        CancelRSVP: this.CancelRSVP.bind(this)
       });
     }
   }, {
@@ -46608,7 +46632,9 @@ var SmallDetails = function (_Component) {
           var users_going = _this.state.user_going;
           users_going.forEach(function (user) {
             if (_this.props.user.id === user.user_id) {
-              _this.setState({ disabled: "disabled" });
+              _this.setState({
+                flag: true
+              });
             }
           });
         } else {
@@ -46628,9 +46654,18 @@ var SmallDetails = function (_Component) {
       });
     };
 
+    _this.handleCancelRsvp = function (e) {
+      e.stopPropagation();
+      _this.props.CancelRSVP(_this.props.event.id);
+      _this.setState({
+        flag: false
+      });
+    };
+
     _this.state = {
       user_going: [],
-      disabled: ""
+      disabled: "",
+      flag: false
     };
     return _this;
   }
@@ -46643,79 +46678,155 @@ var SmallDetails = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'detailcontainer' },
-        _react2.default.createElement(
-          'a',
-          { href: '#', onClick: this.handleClick.bind(this), className: 'smalldetails-link' },
+      if (this.state.flag) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'detailcontainer' },
           _react2.default.createElement(
-            'div',
-            { className: 'smalldetails-container' },
+            'a',
+            { href: '#', onClick: this.handleClick.bind(this), className: 'smalldetails-link' },
             _react2.default.createElement(
               'div',
-              { className: 'smalldetails-header' },
+              { className: 'smalldetails-container' },
               _react2.default.createElement(
-                'h3',
-                { className: 'smalldetails-title' },
-                this.props.event.title
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'smalldetails-attendees' },
-                this.props.event.count,
-                ' Going'
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'smalldetails-body' },
-              _react2.default.createElement(
-                'span',
-                { className: 'smalldetails-date' },
-                _react2.default.createElement('i', { className: 'fa fa-calendar-o', 'aria-hidden': 'true' }),
-                ' ',
+                'div',
+                { className: 'smalldetails-header' },
                 _react2.default.createElement(
-                  _reactMoment2.default,
-                  { format: 'ddd MMMM Do YYYY' },
-                  this.props.event.date_time
+                  'h3',
+                  { className: 'smalldetails-title' },
+                  this.props.event.title
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'smalldetails-attendees' },
+                  this.props.event.count,
+                  ' Going'
                 )
               ),
               _react2.default.createElement(
-                'span',
-                { className: 'smalldetails-time' },
-                _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-                ' ',
+                'div',
+                { className: 'smalldetails-body' },
                 _react2.default.createElement(
-                  _reactMoment2.default,
-                  { format: 'h:mm a' },
-                  this.props.event.date_time
+                  'span',
+                  { className: 'smalldetails-date' },
+                  _react2.default.createElement('i', { className: 'fa fa-calendar-o', 'aria-hidden': 'true' }),
+                  ' ',
+                  _react2.default.createElement(
+                    _reactMoment2.default,
+                    { format: 'ddd MMMM Do YYYY' },
+                    this.props.event.date_time
+                  )
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'smalldetails-time' },
+                  _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                  ' ',
+                  _react2.default.createElement(
+                    _reactMoment2.default,
+                    { format: 'h:mm a' },
+                    this.props.event.date_time
+                  )
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'smalldetails-location' },
+                  _react2.default.createElement('i', { className: 'fa fa-map-marker', 'aria-hidden': 'true' }),
+                  ' ',
+                  this.props.event.location
                 )
               ),
               _react2.default.createElement(
-                'span',
-                { className: 'smalldetails-location' },
-                _react2.default.createElement('i', { className: 'fa fa-map-marker', 'aria-hidden': 'true' }),
-                ' ',
-                this.props.event.location
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'smalldetails-footer' },
-              _react2.default.createElement(
-                'span',
-                { className: 'smalldetails-rsvp' },
+                'div',
+                { className: 'smalldetails-footer' },
                 _react2.default.createElement(
-                  'button',
-                  { disabled: this.state.disabled, type: 'button', onClick: this.handleRsvp.bind(this), className: 'btn btn-primary rsvp-btn' },
-                  'Going'
+                  'span',
+                  { className: 'smalldetails-rsvp' },
+                  _react2.default.createElement(
+                    'button',
+                    { type: 'button', onClick: this.handleCancelRsvp.bind(this), className: 'btn btn-danger rsvp-btn' },
+                    'Not Going'
+                  )
                 )
               )
             )
           )
-        )
-      );
+        );
+      } else {
+        return _react2.default.createElement(
+          'div',
+          { className: 'detailcontainer' },
+          _react2.default.createElement(
+            'a',
+            { href: '#', onClick: this.handleClick.bind(this), className: 'smalldetails-link' },
+            _react2.default.createElement(
+              'div',
+              { className: 'smalldetails-container' },
+              _react2.default.createElement(
+                'div',
+                { className: 'smalldetails-header' },
+                _react2.default.createElement(
+                  'h3',
+                  { className: 'smalldetails-title' },
+                  this.props.event.title
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'smalldetails-attendees' },
+                  this.props.event.count,
+                  ' Going'
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'smalldetails-body' },
+                _react2.default.createElement(
+                  'span',
+                  { className: 'smalldetails-date' },
+                  _react2.default.createElement('i', { className: 'fa fa-calendar-o', 'aria-hidden': 'true' }),
+                  ' ',
+                  _react2.default.createElement(
+                    _reactMoment2.default,
+                    { format: 'ddd MMMM Do YYYY' },
+                    this.props.event.date_time
+                  )
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'smalldetails-time' },
+                  _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                  ' ',
+                  _react2.default.createElement(
+                    _reactMoment2.default,
+                    { format: 'h:mm a' },
+                    this.props.event.date_time
+                  )
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'smalldetails-location' },
+                  _react2.default.createElement('i', { className: 'fa fa-map-marker', 'aria-hidden': 'true' }),
+                  ' ',
+                  this.props.event.location
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'smalldetails-footer' },
+                _react2.default.createElement(
+                  'span',
+                  { className: 'smalldetails-rsvp' },
+                  _react2.default.createElement(
+                    'button',
+                    { disabled: this.state.disabled, type: 'button', onClick: this.handleRsvp.bind(this), className: 'btn btn-primary rsvp-btn' },
+                    'Going'
+                  )
+                )
+              )
+            )
+          )
+        );
+      }
     }
   }]);
 
@@ -47640,7 +47751,9 @@ var LargeDetails = function (_Component) {
           var users_going = _this.state.user_going;
           users_going.forEach(function (user) {
             if (_this.props.user.id === user.user_id) {
-              _this.setState({ disabled: "disabled" });
+              _this.setState({
+                flag: true
+              });
             }
           });
         } else {
@@ -47660,9 +47773,18 @@ var LargeDetails = function (_Component) {
       });
     };
 
+    _this.handleCancelRsvp = function (e) {
+      e.stopPropagation();
+      _this.props.CancelRSVP(_this.props.event.id);
+      _this.setState({
+        flag: false
+      });
+    };
+
     _this.state = {
       user_going: [],
-      disabled: ""
+      disabled: "",
+      flag: false
     };
     return _this;
   }
@@ -47675,100 +47797,201 @@ var LargeDetails = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'largedetails-container' },
-        _react2.default.createElement(
+      if (this.state.flag) {
+        return _react2.default.createElement(
           'div',
-          { className: 'largedetails-titlebar' },
-          _react2.default.createElement(
-            'h1',
-            { className: 'largedetails-titlebar-title' },
-            this.props.event.title
-          ),
-          _react2.default.createElement(
-            'h2',
-            { className: 'largedetails-titlebar-subtitle' },
-            this.props.event.count,
-            ' Going'
-          ),
-          _react2.default.createElement(
-            'a',
-            { href: '#', onClick: this.handleClick.bind(this), className: 'largedetails-close' },
-            _react2.default.createElement(
-              'svg',
-              { xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 80 80' },
-              _react2.default.createElement('path', { fill: '#FFFFFF', d: 'M34.4 40L1.174 73.168c-1.563 1.56-1.566 4.093-.006 5.657s4.09 1.567 5.654.007L40 45.66s-.003.004 33.173 33.17c1.56 1.56 4.098 1.56 5.658 0 1.56-1.56 1.56-4.1 0-5.66C45.678 40.043 45.6 40 45.6 40s.077.043 33.23-33.17c1.56-1.56 1.56-4.13 0-5.66-1.56-1.56-4.087-1.56-5.657 0C39.997 34.36 39.997 34.4 39.997 34.4L6.825 1.172C5.265-.39 2.732-.39 1.17 1.172c-1.56 1.562-1.56 4.094 0 5.656L34.4 40z' })
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'largedetails-content' },
+          { className: 'largedetails-container' },
           _react2.default.createElement(
             'div',
-            { className: 'largedetails-section' },
+            { className: 'largedetails-titlebar' },
             _react2.default.createElement(
-              'span',
-              { className: 'largedetails-date' },
-              _react2.default.createElement('i', { className: 'fa fa-calendar-o', 'aria-hidden': 'true' }),
-              ' ',
-              _react2.default.createElement(
-                _reactMoment2.default,
-                { format: 'ddd MMMM Do YYYY' },
-                this.props.event.date_time
-              )
+              'h1',
+              { className: 'largedetails-titlebar-title' },
+              this.props.event.title
             ),
             _react2.default.createElement(
-              'span',
-              { className: 'largedetails-time' },
-              _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-              ' ',
-              _react2.default.createElement(
-                _reactMoment2.default,
-                { format: 'h:mm a' },
-                this.props.event.date_time
-              )
+              'h2',
+              { className: 'largedetails-titlebar-subtitle' },
+              this.props.event.count,
+              ' Going'
             ),
-            _react2.default.createElement(
-              'span',
-              { className: 'largedetails-location' },
-              _react2.default.createElement('i', { className: 'fa fa-map-marker', 'aria-hidden': 'true' }),
-              ' ',
-              this.props.event.location
-            ),
-            _react2.default.createElement('br', null),
-            _react2.default.createElement('br', null),
             _react2.default.createElement(
               'a',
-              { href: "/events/" + this.props.event.id, className: 'btn btn-primary largedetails-eventpage' },
-              'Go to event page'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'largedetails-section' },
-            _react2.default.createElement(
-              'span',
-              { className: 'largedetails-detailbody' },
-              this.props.event.description
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'largedetails-footer' },
-            _react2.default.createElement(
-              'span',
-              { className: 'largedetails-rsvp' },
+              { href: '#', onClick: this.handleClick.bind(this), className: 'largedetails-close' },
               _react2.default.createElement(
-                'button',
-                { disabled: this.state.disabled, type: 'button', onClick: this.handleRSVP.bind(this), className: 'btn btn-primary rsvp-btn' },
-                'Going'
+                'svg',
+                { xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 80 80' },
+                _react2.default.createElement('path', { fill: '#FFFFFF', d: 'M34.4 40L1.174 73.168c-1.563 1.56-1.566 4.093-.006 5.657s4.09 1.567 5.654.007L40 45.66s-.003.004 33.173 33.17c1.56 1.56 4.098 1.56 5.658 0 1.56-1.56 1.56-4.1 0-5.66C45.678 40.043 45.6 40 45.6 40s.077.043 33.23-33.17c1.56-1.56 1.56-4.13 0-5.66-1.56-1.56-4.087-1.56-5.657 0C39.997 34.36 39.997 34.4 39.997 34.4L6.825 1.172C5.265-.39 2.732-.39 1.17 1.172c-1.56 1.562-1.56 4.094 0 5.656L34.4 40z' })
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'largedetails-content' },
+            _react2.default.createElement(
+              'div',
+              { className: 'largedetails-section' },
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-date' },
+                _react2.default.createElement('i', { className: 'fa fa-calendar-o', 'aria-hidden': 'true' }),
+                ' ',
+                _react2.default.createElement(
+                  _reactMoment2.default,
+                  { format: 'ddd MMMM Do YYYY' },
+                  this.props.event.date_time
+                )
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-time' },
+                _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                ' ',
+                _react2.default.createElement(
+                  _reactMoment2.default,
+                  { format: 'h:mm a' },
+                  this.props.event.date_time
+                )
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-location' },
+                _react2.default.createElement('i', { className: 'fa fa-map-marker', 'aria-hidden': 'true' }),
+                ' ',
+                this.props.event.location
+              ),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'a',
+                { href: "/events/" + this.props.event.id, className: 'btn btn-primary largedetails-eventpage' },
+                'Go to event page'
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'largedetails-section' },
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-detailbody' },
+                _react2.default.createElement('i', { className: 'fa fa-sticky-note', 'aria-hidden': 'true' }),
+                ' ',
+                this.props.event.description
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'largedetails-footer' },
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-rsvp' },
+                _react2.default.createElement(
+                  'button',
+                  { type: 'button', onClick: this.handleCancelRsvp.bind(this), className: 'btn btn-danger rsvp-btn' },
+                  'Not Going'
+                )
               )
             )
           )
-        )
-      );
+        );
+      } else {
+        return _react2.default.createElement(
+          'div',
+          { className: 'largedetails-container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'largedetails-titlebar' },
+            _react2.default.createElement(
+              'h1',
+              { className: 'largedetails-titlebar-title' },
+              this.props.event.title
+            ),
+            _react2.default.createElement(
+              'h2',
+              { className: 'largedetails-titlebar-subtitle' },
+              this.props.event.count,
+              ' Going'
+            ),
+            _react2.default.createElement(
+              'a',
+              { href: '#', onClick: this.handleClick.bind(this), className: 'largedetails-close' },
+              _react2.default.createElement(
+                'svg',
+                { xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 80 80' },
+                _react2.default.createElement('path', { fill: '#FFFFFF', d: 'M34.4 40L1.174 73.168c-1.563 1.56-1.566 4.093-.006 5.657s4.09 1.567 5.654.007L40 45.66s-.003.004 33.173 33.17c1.56 1.56 4.098 1.56 5.658 0 1.56-1.56 1.56-4.1 0-5.66C45.678 40.043 45.6 40 45.6 40s.077.043 33.23-33.17c1.56-1.56 1.56-4.13 0-5.66-1.56-1.56-4.087-1.56-5.657 0C39.997 34.36 39.997 34.4 39.997 34.4L6.825 1.172C5.265-.39 2.732-.39 1.17 1.172c-1.56 1.562-1.56 4.094 0 5.656L34.4 40z' })
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'largedetails-content' },
+            _react2.default.createElement(
+              'div',
+              { className: 'largedetails-section' },
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-date' },
+                _react2.default.createElement('i', { className: 'fa fa-calendar-o', 'aria-hidden': 'true' }),
+                ' ',
+                _react2.default.createElement(
+                  _reactMoment2.default,
+                  { format: 'ddd MMMM Do YYYY' },
+                  this.props.event.date_time
+                )
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-time' },
+                _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+                ' ',
+                _react2.default.createElement(
+                  _reactMoment2.default,
+                  { format: 'h:mm a' },
+                  this.props.event.date_time
+                )
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-location' },
+                _react2.default.createElement('i', { className: 'fa fa-map-marker', 'aria-hidden': 'true' }),
+                ' ',
+                this.props.event.location
+              ),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'a',
+                { href: "/events/" + this.props.event.id, className: 'btn btn-primary largedetails-eventpage' },
+                'Go to event page'
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'largedetails-section' },
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-detailbody' },
+                _react2.default.createElement('i', { className: 'fa fa-sticky-note', 'aria-hidden': 'true' }),
+                ' ',
+                this.props.event.description
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'largedetails-footer' },
+              _react2.default.createElement(
+                'span',
+                { className: 'largedetails-rsvp' },
+                _react2.default.createElement(
+                  'button',
+                  { disabled: this.state.disabled, type: 'button', onClick: this.handleRSVP.bind(this), className: 'btn btn-primary rsvp-btn' },
+                  'Going'
+                )
+              )
+            )
+          )
+        );
+      }
     }
   }]);
 
@@ -56054,6 +56277,56 @@ function mountInputElementToControlPositionOnMap(inputEl, controlPosition, map) 
 function unmountInputElementFromControlPositionOnMap(index, controlPosition, map) {
   return map.controls[controlPosition].removeAt(index);
 }
+
+/***/ }),
+/* 674 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Loading = function (_Component) {
+  _inherits(Loading, _Component);
+
+  function Loading() {
+    _classCallCheck(this, Loading);
+
+    return _possibleConstructorReturn(this, (Loading.__proto__ || Object.getPrototypeOf(Loading)).apply(this, arguments));
+  }
+
+  _createClass(Loading, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement("img", { src: "http://iamchriscollins.com/loading.gif" })
+      );
+    }
+  }]);
+
+  return Loading;
+}(_react.Component);
+
+exports.default = Loading;
 
 /***/ })
 /******/ ]);

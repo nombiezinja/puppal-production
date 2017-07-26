@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Assistant:800");
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -5850,8 +5851,14 @@ button.close {
   width: 85%;
   height: 85%; }
 
-.btn-primary {
-  background-color: #3682BC; }
+.btn-primary:disabled {
+  background-color: #5cb85c; }
+
+.btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled.focus, .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary:hover,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary.focus {
+  background-color: #5cb85c; }
 
 a.error-link {
   color: white;
@@ -5864,8 +5871,33 @@ a.error-link {
 .oops {
   font-size: 150px; }
 
+.btn {
+  border: 0px solid transparent; }
+
+.btn-outline {
+  border: 2px solid #e0e0e0;
+  color: white;
+  font-weight: 300;
+  padding: 15px 25px; }
+  .btn-outline:hover {
+    color: white; }
+  .btn-outline:active {
+    color: white; }
+  .btn-outline:focus {
+    color: white; }
+
+.btn-find {
+  background: #E77078;
+  border: 2px solid transparent;
+  font-weight: 300;
+  padding: 15px 25px; }
+
+.btn-find:hover {
+  background: #bc565d;
+  border: 2px solid #bc565d; }
+
 .navbar-custom {
-  background-color: rgba(74, 189, 172, 0);
+  background-color: rgba(131, 209, 235, 0);
   margin-bottom: 0px;
   z-index: 1000;
   border: none;
@@ -5874,17 +5906,15 @@ a.error-link {
   border-bottom-color: #dddee1;
   font-family: Helvetica Neue; }
   .navbar-custom.small {
-    background-color: #4ABDAC;
+    background-color: #83D1EB;
     -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
     -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); }
 
 .navbar-custom .navbar-brand {
   font-size: 3em;
-  text-transform: uppercase;
   color: #ffffff !important;
   font-weight: 800;
-  letter-spacing: 0.15em;
   font-family: 'Roboto', sans-serif; }
 
 .navbar-custom .navbar-brand:hover {
@@ -5913,7 +5943,9 @@ a.error-link {
   color: white; }
 
 .logo {
-  color: white; }
+  color: white;
+  font-family: 'Assistant', sans-serif;
+  letter-spacing: 0.1em; }
 
 .small .navbar-nav > li > a {
   color: white; }
@@ -5960,7 +5992,7 @@ a.error-link {
   border-radius: 50%; }
 
 .back-to-top i {
-  color: #4ABDAC;
+  color: #83D1EB;
   font-size: 15px;
   display: block;
   line-height: 33px; }
@@ -5971,6 +6003,9 @@ footer {
 .nav-avatar {
   border-radius: 5px; }
 
+.logo-paw {
+  color: #E77078; }
+
 .sidebar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   position: fixed;
@@ -5978,11 +6013,15 @@ footer {
   right: 0;
   bottom: 0;
   z-index: 100;
-  background: #fff;
+  background: #DDDDDD;
   left: auto;
   display: block;
   width: 380px;
   overflow-y: scroll; }
+
+@media (max-width: 320px) {
+  .sidebar {
+    display: none; } }
 
 .searchbar {
   position: fixed;
@@ -6030,7 +6069,7 @@ footer {
   padding: 6px 12px;
   width: 100%;
   align-items: center;
-  background: #3682BC;
+  background: #6182C3;
   height: 2.5em; }
 
 .smalldetails-title {
@@ -6084,10 +6123,16 @@ a.smalldetails-link {
 .rsvp-btn {
   width: 100%; }
 
+@media (max-width: 320px) {
+  .detailcontainer {
+    position: static;
+    height: 500px;
+    width: 100%; } }
+
 .largedetails-container {
   width: 100%;
   height: 100%;
-  background: white; }
+  background: #f7f8f9; }
 
 .largedetails-titlebar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
@@ -6096,7 +6141,7 @@ a.smalldetails-link {
   padding: 20px 80px 0 20px;
   width: 100%;
   height: 80px;
-  background: #3682BC; }
+  background: #6182C3; }
 
 .largedetails-titlebar-title {
   margin: 0;
@@ -6168,7 +6213,7 @@ a.largedetails-directions {
   display: block; }
 
 a.largedetails-eventpage {
-  background-color: #3682BC;
+  background-color: #337ab7;
   border-radius: 4px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   width: 100%;
@@ -6195,6 +6240,18 @@ a.largedetails-eventpage {
   bottom: 0;
   position: fixed;
   left: 0; }
+
+@media (max-width: 320px) {
+  .mapcontainer {
+    position: static;
+    height: 400px;
+    width: 100%; } }
+
+@media (max-width: 320px) {
+  .sidebar {
+    position: static;
+    height: 500px;
+    width: 100%; } }
 
 .registerdiv {
   padding-top: 100px; }
@@ -6370,7 +6427,7 @@ a.largedetails-eventpage {
   right: 0;
   bottom: 0px;
   z-index: 100;
-  background: #fff;
+  background: #f7f8f9;
   left: auto;
   display: block;
   width: 380px;
@@ -6383,7 +6440,7 @@ a.largedetails-eventpage {
   left: 0;
   bottom: 0px;
   z-index: 100;
-  background: #fff;
+  background: #f7f8f9;
   right: auto;
   display: block;
   width: 380px;
@@ -6395,7 +6452,8 @@ a.largedetails-eventpage {
 
 .pup-pic {
   border-radius: 100px;
-  margin-top: 40px; }
+  margin-top: 40px;
+  height: 80px; }
 
 .puppy-box {
   text-align: center; }
@@ -6430,11 +6488,40 @@ a.largedetails-eventpage {
 .owner-profile-col {
   padding: 0 50px; }
 
+@media (max-width: 320px) {
+  .left_sidebar {
+    position: static;
+    height: 500px;
+    width: 100%; } }
+
+@media (max-width: 320px) {
+  .right_sidebar {
+    position: static;
+    height: 500px;
+    width: 100%; } }
+
+@media (max-width: 320px) {
+  .owner-profile-col {
+    position: static;
+    height: 500px;
+    width: 100%; } }
+
 .pup-info {
   border: 1px solid lightgrey; }
 
 .statuses {
   padding-top: 20px; }
+
+@media (max-width: 320px) {
+  .pup-info {
+    position: static;
+    height: 500px;
+    width: 100%; } }
+
+.main-pup-pic {
+  border-radius: 50px;
+  margin-top: 40px;
+  height: 150px; }
 
 .event_detail_container {
   padding-top: 120px; }
@@ -6501,6 +6588,21 @@ a.pup-link {
 
 .img-circle {
   height: 50px; }
+
+@media (max-width: 320px) {
+  .event_detail_container {
+    position: static;
+    height: 500px;
+    width: 100%; } }
+
+@media (max-width: 320px) {
+  .detail_right_sidebar {
+    position: static;
+    height: 500px;
+    width: 100%; } }
+
+.pac-container {
+  z-index: 10000 !important; }
 
 .emoji-mart,
 .emoji-mart * {

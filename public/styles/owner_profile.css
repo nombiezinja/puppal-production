@@ -1,11 +1,11 @@
-.profile_sidebar {
+.right_sidebar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   position: fixed;
-  top: 70px;
+  top: 65px;
   right: 0;
   bottom: 0px;
   z-index: 100;
-  background: #fff;
+  background: #f7f8f9;
   left: auto;
   display: block;
   width: 380px;
@@ -14,11 +14,11 @@
 .left_sidebar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   position: fixed;
-  top: 70px;
+  top: 65px;
   left: 0;
   bottom: 0px;
   z-index: 100;
-  background: #fff;
+  background: #f7f8f9;
   right: auto;
   display: block;
   width: 380px;
@@ -26,12 +26,12 @@
 
 .owner-avatar {
   border-radius: 100px;
-  margin-top: 50px;
-  border: 1px solid lightgrey; }
+  margin-top: 30px; }
 
 .pup-pic {
   border-radius: 100px;
-  margin-top: 40px; }
+  margin-top: 40px;
+  height: 80px; }
 
 .puppy-box {
   text-align: center; }
@@ -50,3 +50,36 @@
 
 .quote {
   display: inline; }
+
+.fa quote fa-quote-left {
+  display: flex; }
+
+.owner-name {
+  font-weight: 400; }
+
+.new-status {
+  padding-top: 0; }
+
+.update-status-btn {
+  float: right; }
+
+.owner-profile-col {
+  padding: 0 50px; }
+
+@media (max-width: 320px) {
+  .left_sidebar {
+    position: static;
+    height: 500px;
+    width: 100%; } }
+
+@media (max-width: 320px) {
+  .right_sidebar {
+    position: static;
+    height: 500px;
+    width: 100%; } }
+
+@media (max-width: 320px) {
+  .owner-profile-col {
+    position: static;
+    height: 500px;
+    width: 100%; } }

@@ -26,13 +26,23 @@
 </style>
 <body>
   <% include partials/_navbar.ejs %>
+  <div class="animationload">
+    <div class="loader">&nbsp;</div>
+  </div>
+  <script>
+    $(window).ready(function() {
+        $('.animationload').hide();
+    });
+  </script>
   <script>var id =  <%- JSON.stringify(pup.id) %></script>
   <div class="registerdiv">
     <div class="container-fluid">
       <div class="row">
         <div class = "col-md-3 text-center">
           <div class="left_sidebar">
-          <%const owner = person[0]%>
+            <h3>My Owner</h3>
+            <div class="seperator"></div>
+          <%const owner = person%>
           <% include partials/_owner.ejs%>
           <hr>
           <style>
@@ -55,10 +65,10 @@
 
           <div class='statuses'> </div>
 
-          <% if (user && user.id == person[0].id) { %>
+          <% if (user && user.id == person.id) { %>
           <div class="seperator"></div>
           <section class="new-status">
-            <h2>Update pup's status</h2>
+          <h2>What has <%= pup.name %> been up to?</h2>
             <form class="status-form" method="POST" action= "/pet/<%= pup.id %>">
               <input class="form-control" type="file" id="file-input">
               <textarea class="form-control" name="text" placeholder="Ehhh What's up Doc?"></textarea>
@@ -68,6 +78,8 @@
             </form>
           </section>
           <% } %>
+          <div class="seperator"></div>
+          <div class='statuses'> </div><br>
         </div>
         <div class="col-md-3 text-center">
           <div class="right_sidebar">
