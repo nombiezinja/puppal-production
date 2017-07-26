@@ -66,7 +66,6 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   dbHelper.getRandomPup()
     .then((pup) => {
-      console.log(pup.rows[0]);
       res.render(__dirname + '/public/views/index', {pup:pup.rows[0]});
     })
 });
@@ -80,7 +79,6 @@ app.use("/", ownerRoutes(dbHelper));
 app.use("/api", apiRoutes(dbHelper));
 
 io.set('authorization', function (handshakeData, callback) {
-  // console.log(handshakeData, 'is handshakeData')
   callback(null, true);
 });
 
@@ -119,7 +117,6 @@ io.on('connection', function (socket) {
   if(eventId){
     dbHelper.getMessagesByEventId(eventId)// find all messages under this event
       .then((results) => {
-      // console.log( "all event posts: ", results);
         let messages = [];
         results.forEach(function(message){
           messages.push({
@@ -131,7 +128,6 @@ io.on('connection', function (socket) {
             created_at: message.created_at
           });
         });
-      // console.log(messages);
       io.in("room-"+eventId).emit("incomingMessage", messages);
       });
   }

@@ -1,10 +1,10 @@
 <div class="puppy-card">
   <div class="puppy-box">
     <a href="/pet/<%=pup.id%>">
-    <img class="pup-pic"src="<%= pup.avatar_url %>" style="width:200px">
+    <img class="pup-pic"src="<%= pup.avatar_url %>">
       <h2><%= pup.name %></h2>
     </a>
-    <div class="pup-info">
+    <div>
     <h4>Breed: <%= pup.breed %></h4>
     <h4>Age: <%= pup.age %> years old</h4>
     <% if (pup.sex == 'male' || pup.sex == 'Male') {%>

@@ -5840,7 +5840,8 @@ button.close {
 
 .featured-title {
   color: black;
-  font-size: 3em;
+  font-size: 2em;
+  font-family: 'Assistant', sans-serif;
   font-weight: 400; }
 
 .featured-img {
@@ -5850,15 +5851,6 @@ button.close {
 .featured-map {
   width: 85%;
   height: 85%; }
-
-.btn-primary:disabled {
-  background-color: #5cb85c; }
-
-.btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled.focus, .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled].focus,
-fieldset[disabled] .btn-primary:hover,
-fieldset[disabled] .btn-primary:focus,
-fieldset[disabled] .btn-primary.focus {
-  background-color: #5cb85c; }
 
 a.error-link {
   color: white;
@@ -6084,7 +6076,8 @@ footer {
 
 .smalldetails-body {
   margin: 8px 0;
-  text-align: center; }
+  text-align: center;
+  padding: 0 0.5em; }
 
 .smalldetails-attendees {
   padding-left: 16px;
@@ -6447,13 +6440,16 @@ a.largedetails-eventpage {
   overflow-y: scroll; }
 
 .owner-avatar {
-  border-radius: 100px;
-  margin-top: 30px; }
+  border-radius: 50%;
+  margin-top: 30px;
+  width: 210px;
+  height: 210px; }
 
 .pup-pic {
-  border-radius: 100px;
+  border-radius: 50%;
   margin-top: 40px;
-  height: 80px; }
+  height: 140px;
+  width: 140px; }
 
 .puppy-box {
   text-align: center; }
@@ -6481,9 +6477,6 @@ a.largedetails-eventpage {
 
 .new-status {
   padding-top: 0; }
-
-.update-status-btn {
-  float: right; }
 
 .owner-profile-col {
   padding: 0 50px; }
@@ -6519,9 +6512,10 @@ a.largedetails-eventpage {
     width: 100%; } }
 
 .main-pup-pic {
-  border-radius: 50px;
+  border-radius: 50%;
   margin-top: 40px;
-  height: 150px; }
+  height: 100px;
+  width: 100px; }
 
 .event_detail_container {
   padding-top: 120px; }
@@ -6603,6 +6597,13 @@ a.pup-link {
 
 .pac-container {
   z-index: 10000 !important; }
+
+.regular {
+  color: #6182C3; }
+
+.rsvped {
+  color: #E77078;
+  background-color: #AAD7D2; }
 
 .emoji-mart,
 .emoji-mart * {
