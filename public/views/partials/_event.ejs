@@ -3,7 +3,7 @@
     <a class="smalldetails-link" href="/events/<%=event.id%>">
     <div class="smalldetails-header">
       <h3 class="smalldetails-title"><%= event.title %></h3>
-      <span class="smalldetails-attendees"><%= event.count %> Going</span>
+      <span class="smalldetails-attendees"><%= event.count %> Click to Go</span>
     </div>
     <div class="smalldetails-body">
       <span class="smalldetails-date"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= moment(event.date_time).format("ddd MMMM Do YYYY") %></span>
@@ -14,7 +14,7 @@
     <div class="smalldetails-footer">
       <% if (user&&user.id===person.id) { %>
       <form action="/events/<%=event.id%>/cancel" method="POST" >
-        <button type="submit" class="btn btn-danger rsvp-btn">Can't Go</button>
+        <button type="submit" class="btn btn-danger rsvp-btn">Click to cancel</button>
       </form>
       <% }else{ %>
         <a class="btn btn-primary rsvp-btn" href="/events/<%=event.id%>">Check it Out</a>
