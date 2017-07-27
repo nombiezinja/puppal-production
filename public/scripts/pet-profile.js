@@ -223,6 +223,7 @@ $(document).ready(function () {
           }).done(function () {
             $('.status-form textarea').val('');
             $('#file-input').val('');
+            $('#img-upload').attr('src', '');
             loadStatuses();
           });
         }
