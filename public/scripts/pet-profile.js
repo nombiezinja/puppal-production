@@ -12,6 +12,52 @@ $(document).ready(function () {
 
   //profile update
 
+  function loadProfile() {
+    $.ajax({
+      url: `/api/pet/profile/${id}`
+    }).done(function (profile) {
+      renderProfile(profile[0]);
+    });
+  }
+
+  function createProfileElements(profile) {
+
+    var sex = (profile.sex == "Male") ? 'Boy' : 'Girl'
+    var neutered = (profile.neutered == true) ? 'Neutered' : 'Not Neutered'
+
+    var $div1 = $("<div>", {class: "puppy-card"})
+    var $div2 = $("<div>", {class: "puppy-box"})
+
+    var $img = $("<img>", {class: "pup-pic",src: profile.avatar_url});
+    var $h2 = $("<h2>", {class: "listContent",text: profile.name});
+
+    var $div3 = $("<div>", {class: "pup-info"})
+
+    var $pBreed = $("<p>", {text: profile.breed})
+    var $pAge = $("<p>", {text: `${profile['age']} years old`})
+    var $pSex = $("<p>", {text: `${sex}`})
+    var $pNeutered = $("<p>", {text: `${neutered}`})
+
+    $div3.append($pBreed).append($pAge).append($pSex).append($pNeutered)
+    $div2.append($img).append($h2).append($div3)
+    $div1.append($div2)
+    return $div1;
+  }
+
+  function renderProfile(profileData) {
+    $('.profile').empty()
+    var $profile = createProfileElements(profileData)
+    $('.profile').append($profile)
+  }
+
+  function loadStatuses() {
+    $.ajax({
+      url: `/api/pet/${id}`
+    }).done(function (statuses) {
+      renderStatuses(statuses);
+    })
+  }
+
   $(".edit").on('click', function () {
     $('.puppy-card').slideToggle('fast');
     $('.statuses').slideToggle('fast');
@@ -32,64 +78,6 @@ $(document).ready(function () {
     $('.edit').slideToggle('fast');
   });
 
-  function createProfileElements(profile) {
-
-    var sex = (profile.sex == "Male") ? 'Boy' : 'Girl'
-    var neutered = (profile.neutered == true) ? 'Neutered' : 'Not Neutered'
-
-    var $div1 = $("<div>", {
-      class: "puppy-card"
-    })
-    var $div2 = $("<div>", {
-      class: "puppy-box"
-    })
-
-    var $img = $("<img>", {
-      class: "pup-pic",
-      src: profile.avatar_url
-    });
-    var $h2 = $("<h2>", {
-      class: "listContent",
-      text: profile.name
-    });
-
-    var $div3 = $("<div>", {
-      class: "pup-info"
-    })
-
-    var $pBreed = $("<p>", {
-      text: profile.breed
-    })
-    var $pAge = $("<p>", {
-      text: `${profile['age']} years old`
-    })
-    var $pSex = $("<p>", {
-      text: `${sex}`
-    })
-    var $pNeutered = $("<p>", {
-      text: `${neutered}`
-    })
-
-    $div3.append($pBreed).append($pAge).append($pSex).append($pNeutered)
-    $div2.append($img).append($h2).append($div3)
-    $div1.append($div2)
-    return $div1;
-  }
-
-  function renderProfile(profileData) {
-    $('.profile').empty()
-    var $profile = createProfileElements(profileData)
-    $('.profile').append($profile)
-  }
-
-  function loadProfile() {
-    $.ajax({
-      url: `/api/pet/profile/${id}`
-    }).done(function (profile) {
-      renderProfile(profile[0]);
-    });
-  }
-
   loadProfile()
 
   $('.edit-form').on('submit', function (event) {
@@ -99,13 +87,13 @@ $(document).ready(function () {
       url: `/api/pet/profile/${id}`,
       data: $(this).serialize()
     }).done(function () {
+      loadProfile()
       $('.edit-form .input').val('');
       $('.edit-profile').slideToggle();
       $('.puppy-card').slideToggle();
       $('.statuses').slideToggle();
       $('.back').hide();
       $('.edit').slideToggle();
-      loadProfile()
     })
   })
 

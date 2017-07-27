@@ -47,7 +47,7 @@ $(document).ready(function(){
     $('.new-status').slideToggle('fast');
     $('.edit-profile').slideToggle('fast');
     $('.back').slideToggle('fast');
-    $('.seperator').slideToggle('fast');    
+    $('.seperator').slideToggle('fast');
     $('.edit').hide();
   });
 
@@ -57,7 +57,7 @@ $(document).ready(function(){
     $('.new-status').slideToggle('fast');
     $('.edit-profile').slideToggle('fast');
     $('.back').hide();
-    $('.seperator').slideToggle('fast');        
+    $('.seperator').slideToggle('fast');
     $('.edit').slideToggle('fast');
   });
 
@@ -92,7 +92,7 @@ $(document).ready(function(){
     } else {
       $counter.removeClass('changeRed');
     }
-    $counter.text(remaining);    
+    $counter.text(remaining);
   });
 
 
@@ -115,7 +115,7 @@ $(document).ready(function(){
       }).done(function(){
         loadStatus();
         $('.status-form textarea').val('');
-        $counter.text(100);         
+        $counter.text(100);
       });
     }
   });
