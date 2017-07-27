@@ -4,6 +4,7 @@ $(document).ready(function () {
     status_id = $(this).data().id
     $.ajax({
       url: `/api/pet/delete/status/${status_id}`,
+      data: {pup_id: id},
       method: 'POST'
     }).done(function () {
       loadStatuses()
@@ -139,12 +140,16 @@ $(document).ready(function () {
 
         $div.append($imgDiv)
       }
-      var $a = $('<a>', {class: 'status-delete', "data-id" : status.id});
-      var $deleteIcon = $('<i>', {class: 'fa fa-times-circle'});
 
-      $a.append($deleteIcon)
+      if (user && userId == personId) {
 
-      $infoDiv.prepend($a)
+        var $a = $('<a>', {class: 'status-delete', "data-id" : status.id});
+        var $deleteIcon = $('<i>', {class: 'fa fa-times-circle'});
+
+        $a.append($deleteIcon)
+        $infoDiv.prepend($a)
+      }
+
       $section.append($div)
     })
     return $section;

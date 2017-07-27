@@ -28,8 +28,16 @@
     $(window).ready(function() {
         $('.animationload').hide();
     });
+   var id =  <%- JSON.stringify(pup.id) %>
+   var user = ''
+   var userId = ''
+   <% if(user) { %>
+    var user =  <%- JSON.stringify(user) %>
+    var userId =  <%- JSON.stringify(user.id) %>
+   <% } %>
+   var personId = <%- JSON.stringify(person.id) %>
   </script>
-  <script>var id =  <%- JSON.stringify(pup.id) %></script>
+
   <div class="registerdiv">
     <div class="container-fluid">
       <div class="row">
