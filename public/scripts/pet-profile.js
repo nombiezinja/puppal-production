@@ -99,13 +99,13 @@ $(document).ready(function () {
       url: `/api/pet/profile/${id}`,
       data: $(this).serialize()
     }).done(function () {
-      loadProfile()
       $('.edit-form .input').val('');
       $('.edit-profile').slideToggle();
       $('.puppy-card').slideToggle();
       $('.statuses').slideToggle();
       $('.back').hide();
       $('.edit').slideToggle();
+      loadProfile()
     })
   })
 
