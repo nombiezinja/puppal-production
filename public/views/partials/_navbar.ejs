@@ -35,53 +35,53 @@
               <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
 
-                                  <!-- Modal content-->
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                      <h4 class="modal-title"><i class="fa fa-paw" aria-hidden="true"></i> Create Event</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                      <form method="POST" action="/events/new" class="register-form" role="form">
-                                        <p>
-                                          <label for="title">Title</label>
-                                          <input class="input form-control" type="text" name="title" required="required">
-                                        </p>
-                                        <p>
-                                          <label for="event">Description</label>
-                                          <textarea name="message" id="message" class="form-control" rows="5" cols="25" required="required"></textarea>
-                                        </p>
-                                        <p>
-                                          <label for="restrictions">Restrictions</label>
-                                          <input class="input form-control" type="text" placeholder="eg. Only big dogs" name="restriction">
-                                        </p>
-                                        <p>
-                                          <label for="location">Location</label>
-                                          <input id="searchTextField" class="input form-control" type="text" name="location" required="required">
-                                        </p>
-                                        <p>
-                                          <label for="date">Date</label>
-                                          <input class="input form-control" type="date" name="date_time" required="required">
-                                        </p>
-                                        <p>
-                                          <label for="time">Time</label>
-                                          <input class="input form-control" type="time" name="date_time" required="required">
-                                        </p>
-                                        <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
-                                      </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                  </div>
+               <!-- Modal content-->
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title"><i class="fa fa-paw" aria-hidden="true"></i> Create Event</h4>
+                 </div>
+                 <div class="modal-body">
+                   <form method="POST" id="createEvent" action="/events/new" class="register-form" role="form">
+                     <p>
+                       <label for="title">Title</label>
+                       <input class="input form-control" type="text" name="title" required="required">
+                     </p>
+                     <p>
+                       <label for="event">Description</label>
+                       <textarea name="message" id="message" class="form-control" rows="5" cols="25" required="true"></textarea>
+                     </p>
+                     <p>
+                       <label for="restrictions">Restrictions</label>
+                       <input class="input form-control" type="text" placeholder="eg. Only big dogs" name="restriction">
+                     </p>
+                     <p>
+                       <label for="location">Location</label>
+                       <input id="searchTextField" class="input form-control" type="text" name="location" required="true">
+                     </p>
+                     <p>
+                       <label for="date">Date</label>
+                       <input class="input form-control" type="date" name="date_time" required="true">
+                     </p>
+                     <p>
+                       <label for="time">Time</label>
+                       <input class="input form-control" type="time" name="date_time" required="true">
+                     </p>
+                     <button type="submit" id="btn-create" class="btn btn-lg btn-primary btn-block">CREATE</button>
+                   </form>
+                 </div>
+                 <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                 </div>
+               </div>
 
-                                </div>
-                              </div>
-                              <%}%>
-                      </ul>
+             </div>
+           </div>
+           <%}%>
+   </ul>
 
-                      </div>
-                    </div>
+   </div>
+ </div>
                   <script>
                     $('.create_event').on('click', (e) => {
                       $('#myModal').modal("show");

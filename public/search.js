@@ -43851,7 +43851,7 @@ var App = function (_React$Component) {
 
     _this.fetchData = function () {
       var getEvents = function getEvents() {
-        return _axios2.default.get('/api/events');
+        return _axios2.default.get('/api/events/radius?boundalat=' + _this.state.bound_a.lat + '\n        &boundalng=' + _this.state.bound_a.lng + '\n        &boundblat=' + _this.state.bound_b.lat + '\n        &boundblng=' + _this.state.bound_b.lng);
       };
 
       var getUser = function getUser() {
@@ -43872,14 +43872,17 @@ var App = function (_React$Component) {
         }
         _this.setState({
           events: eventsData,
-          user: userData
+          user: userData,
+          loading: false
         });
-        console.log("Events data from server:", eventsData);
-        console.log("User data from server:", userData);
       }));
     };
 
     _this.locationFilter = function (bound_a, bound_b) {
+      _this.setState({
+        bound_a: bound_a,
+        bound_b: bound_b
+      });
       return _axios2.default.get('/api/events/radius?boundalat=' + bound_a.lat + '&boundalng=' + bound_a.lng + '&boundblat=' + bound_b.lat + '&boundblng=' + bound_b.lng).then(function (response) {
         _this.setState({ events: response.data });
       });
@@ -43903,6 +43906,8 @@ var App = function (_React$Component) {
       loading: true,
       events: [],
       user: {},
+      bound_a: {},
+      bound_b: {},
       dates: {
         startDate: "",
         endDate: ""
@@ -43912,14 +43917,8 @@ var App = function (_React$Component) {
   }
 
   _createClass(App, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.setState({ loading: true });
-    }
-  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.setState({ loading: false });
       this.fetchData();
     }
   }, {
@@ -43937,7 +43936,7 @@ var App = function (_React$Component) {
         }),
         _react2.default.createElement(_SearchBar2.default, { dates: this.state.dates, handleDayChange: this.handleDayChange })
       );
-      return loading ? _react2.default.createElement('img', { src: 'http://iamchriscollins.com/loading.gif' }) : mapDiv;
+      return loading ? _react2.default.createElement('img', { src: 'https://s3-us-west-1.amazonaws.com/puppals/preloader.gif' }) : mapDiv;
     }
   }]);
 
@@ -46745,7 +46744,7 @@ var SmallDetails = function (_Component) {
                   _react2.default.createElement(
                     'button',
                     { type: 'button', onClick: this.handleCancelRsvp.bind(this), className: 'btn btn-danger rsvp-btn' },
-                    'Not Going'
+                    'Click to Cancel'
                   )
                 )
               )
@@ -46819,7 +46818,7 @@ var SmallDetails = function (_Component) {
                   _react2.default.createElement(
                     'button',
                     { disabled: this.state.disabled, type: 'button', onClick: this.handleRsvp.bind(this), className: 'btn btn-primary rsvp-btn' },
-                    'Going'
+                    'Click to Go'
                   )
                 )
               )
@@ -47775,10 +47774,10 @@ var LargeDetails = function (_Component) {
 
     _this.handleCancelRsvp = function (e) {
       e.stopPropagation();
-      _this.props.CancelRSVP(_this.props.event.id);
       _this.setState({
         flag: false
       });
+      _this.props.CancelRSVP(_this.props.event.id);
     };
 
     _this.state = {

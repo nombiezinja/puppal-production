@@ -15,13 +15,13 @@ module.exports = (dbHelper) => {
       res.redirect("/user/login");
       return;
     }
-    dbHelper.savePet(req.body, req.session.user.id)
+    dbHelper.savePet(req.body, Number(req.session.user.id))
     .then((result) => {
       res.redirect(`/pet/${result}`);
     })
     .catch((errors) => {
       console.log(errors);
-      res.status(404).render('404');
+      res.redirect('/500');
     });
   })
 
@@ -35,10 +35,10 @@ module.exports = (dbHelper) => {
         if(result[1].length === 0) {
           res.redirect('/404');
         };
-        const person = result[0][0]
-        const pup = result[1][0]
-        const events = result[2]
-        const statuses = result[3]
+        const person = result[0][0];
+        const pup = result[1][0];
+        const events = result[2];
+        const statuses = result[3];
         res.render("pet_profile",  {
           person,
           pup,
@@ -49,7 +49,7 @@ module.exports = (dbHelper) => {
       })
       .catch((errors) => {
        console.log(errors);
-       res.status(404).render('404');
+       res.redirect('/500');
       });
   });
 
