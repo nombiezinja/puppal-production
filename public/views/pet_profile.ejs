@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="col-md-6 text-center owner-profile-col">
-        <% if (user && user.id == person.id) { %>
+          <% if (user && user.id == person.id) { %>
           <button class="btn btn-primary edit btn">Update profile</button>
           <button class="btn btn-primary back btn">Back to profile</button>
           <div class="edit-profile">
@@ -60,11 +60,22 @@
           <section class="new-status">
             <h2>What has <%= pup.name %> been up to?</h2>
             <form class="status-form" method="POST" action= "/pet/<%= pup.id %>">
-              <input class="form-control" type="file" id="file-input">
-              <textarea class="form-control" name="text" placeholder="Ehhh What's up Doc?"></textarea>
+                  <label>Upload Image</label>
+                  <div class="input-group">
+                      <span class="input-group-btn">
+                          <span class="btn btn-default btn-file">
+                              Browse… <input type="file" id="file-input">
+                          </span>
+                      </span>
+                      <input type="text" class="form-control" readonly>
+                  </div>
+                  <img id='img-upload'/>
+              <textarea class="form-control" name="text" placeholder="New Status"></textarea>
               <br>
+              <div class="update-pup">
               <input class="btn btn-primary" type="submit" value="Update">
               <div class="counter">140</div>
+              </div>
             </form>
           </section>
           <% } %>
