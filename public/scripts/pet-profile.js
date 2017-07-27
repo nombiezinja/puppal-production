@@ -107,7 +107,7 @@ $(document).ready(function(){
     var $section = $('<section>')
     statuses.forEach((status) => {
       var $timeSpan = $('<span>', {class: 'status-time', text: moment(status.created_at).format("ddd MMMM Do YYYY") + " at " + moment(status.created_at).format("h:mm a")})
-      var $textSpan = $('<span>', {class: 'status-text',text: " | " + status.content});
+      var $textSpan = $('<span>', {class: 'status-text',text: status.content});
       if(status.media_url) {
         var $img = $('<img>', {class: 'status-img', src:status.media_url})
       }

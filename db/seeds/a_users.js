@@ -131,7 +131,7 @@ exports.seed = function(knex, Promise) {
           return insertPupUpdate(//change the url
             pup_id,
             'wof wof',
-            "http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg"
+            "https://previews.123rf.com/images/voronin76/voronin761302/voronin76130200101/17688555-The-dog-Siberian-husky-in-the-winter-Stock-Photo.jpg"
           );
         })
         }),
@@ -158,13 +158,19 @@ exports.seed = function(knex, Promise) {
               'male'
             )
             .then((pup_id)=>{
-              return insertPupUpdate(//change the url
-                pup_id,
-                'me on the grass',
-                "http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg"
-              );
-            }
-            ),
+              return Promise.all([
+                insertPupUpdate(//change the url
+                  pup_id,
+                  'me on the grass',
+                  "http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg"
+                ),
+                insertPupUpdate(
+                  pup_id, 
+                  'me on the beach',
+                  "https://s-media-cache-ak0.pinimg.com/originals/1b/18/59/1b185975b0dad478fe8b47096860647d.jpg"
+                )
+              ])
+            }),
             insertPup(
               id,
               'Long-haired Mini Daschund',
@@ -182,8 +188,7 @@ exports.seed = function(knex, Promise) {
                 'gaga',
                 "https://s-media-cache-ak0.pinimg.com/originals/11/df/09/11df0994564516bb631c6c369014080f.jpg"
               )
-            }
-            ),
+            }),
             insertPup(
               id,
               'Golden Retriever',
@@ -243,7 +248,13 @@ exports.seed = function(knex, Promise) {
               '/styles/pictures/pom.jpg',
               'Fiona',
               'female'
-            )
+            ).then((pup_id)=>{
+                return insertPupUpdate(//change the url
+                  pup_id,
+                  'Shy me',
+                  "https://s-media-cache-ak0.pinimg.com/736x/b5/9f/87/b59f8728480231a869b262c5df1978d9--chicken-nuggets-cute-pomeranian.jpg"
+                );
+              })
           ]);
         }),
         //5.ti has one dog
@@ -650,37 +661,94 @@ exports.seed = function(knex, Promise) {
           }),
           //17.matt has 2 dogs
           insertUser(
-            'mattyb',
-            'Matt Baxley',
-            'mbaxley@gmail.com',
+            'markZ',
+            'Mark Zuckerberg',
+            'mzuckerberg@fb.com',
             '123',
-            'Just went to my first meetup with Jack, so fun!!',
-            'http://www.gangstersout.com/david_gilesbf.JPG'
+            'Awesome Web App!!',
+            'http://blogs.timesofindia.indiatimes.com/wp-content/uploads/2015/12/mark-zuckerberg.jpg'
           )
           .then((id) => {
             return Promise.all([
              insertPup(
               id,
-              'Border Collie',
-              'Medium',
-              'Quiet',
+              'Puli',
+              'Small',
+              'Friendly',
               true,
-              '2',
-              '/styles/pictures/collie.jpg',
-              'Calli',
-              'female'
-           ),
+              '6',
+              '/styles/pictures/beast.jpg',
+              'Beast',
+              'male'
+           )
+           ]);
+         }),
+          insertUser(
+            'manuelP',
+            'Manuel Perez Cabello',
+            'manuelpcabello@gmail.com',
+            '123',
+            'Had a blast at my last meetup!!',
+            '/styles/pictures/Manuel.jpg'
+          )
+          .then((id) => {
+            return Promise.all([
              insertPup(
               id,
-              'Blue Heeler',
+              'Mini dachshund',
               'Small',
-              'Playful',
+              'High maintenance',
               true,
-              '1',
-              '/styles/pictures/heeler.jpg',
-              'Timmy',
-              'male'
-             )
+              '5',
+              '/styles/pictures/peppi.jpg',
+              'Peppi',
+              'female'
+           )
+           ]);
+         }),
+          insertUser(
+            'rebs',
+            'Rebecca Haliburton',
+            'rebeccahaliburton@gmail.com',
+            '123',
+            'Can\'t wait to meet new people and puppies!',
+            '/styles/pictures/rebs.jpg'
+          )
+          .then((id) => {
+            return Promise.all([
+              insertPup(
+                id,
+                'Golden Labrador',
+                'Medium',
+                'Playful',
+                true,
+                '4',
+                '/styles/pictures/lucy2.jpg',
+                'Lucy',
+                'female'
+              ),
+              insertPup(
+                id,
+                'Golden Retriever',
+                'Medium',
+                'Playful',
+                true,
+                '5',
+                '/styles/pictures/morley.jpg',
+                'Morley',
+                'male'
+              ),
+              insertPup(
+                id,
+                'Golden Labrador',
+                'Medium',
+                'Playful',
+                true,
+                '5',
+                '/styles/pictures/haley.jpg',
+                'Haley',
+                'female'
+              )
            ]);
          })
         //can add more users here

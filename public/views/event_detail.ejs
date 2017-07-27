@@ -31,6 +31,9 @@
             <div class="seperator"></div>
             <div>
               <% users.forEach((item) => {%>
+              <%if(creator_id === item.id){%>
+                <h4>Event Host</h4>
+              <%}%>
                 <% include partials/_event_goer.ejs %>
                 <%if(item.pups.length != 0){%>
                   <p>And their pups</p>
@@ -52,8 +55,8 @@
                   <button type="submit" class="btn btn-primary">Click to Go</button>
                 </form>
               <%}else{%>
-                <form class="detail-rsvp" action="/events/<%=id%>/cancel" method="POST" >
-                  <button type="submit" class="btn btn-danger">Click to cancel</button>
+                <form id="cancel-form" class="detail-rsvp" action="/events/<%=id%>/cancel" method="POST" >
+                  <button type="submit" class="btn-cancel btn btn-danger">Click to cancel</button>
                 </form>
               <%}%>
             <% } %>
@@ -77,8 +80,8 @@
             </div>
             <br>
             <div style="text-align: center">
-                <form action="/events/<%=id%>/delete" method="POST" >
-                <button type="submit" class="btn btn-danger">Close Event</button>
+                <form id="delete-form" action="/events/<%=id%>/delete" method="POST" >
+                <button type="submit" id="btn-delete" class="btn btn-danger">Close Event</button>
                 </form>
             </div>
           <%}%>
@@ -148,6 +151,18 @@
     </div>
   </div>
   <script>
+
+    $('.detail-rsvp').on('submit', function() {
+        $('.btn-rsvp').prop('disabled', true)
+    });
+
+    $('#cancel-form').on('submit', function() {
+        $('.btn-cancel').prop('disabled', true)
+      });
+    $('#delete-form').on('submit', function() {
+        $('#btn-delete').prop('disabled', true)
+      });
+
     $('#editEvent').on('click', (e) => {
       $('#editEventModal').modal("show");
     });

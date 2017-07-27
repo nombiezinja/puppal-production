@@ -19,7 +19,7 @@
           <li><a href="/events"><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i></a></li>
           <% if(!user){%>
             <li><a href='/user/login' class="create_event"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a></li>
-            <li><a href="/user/login">Login</a></li>
+            <li><a href="/user/login">Log In</a></li>
             <li><a href="/user/signup">Sign Up</a></li>
           <%}else{%>
             <li><a href='#' class="create_event"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a></li>
@@ -82,16 +82,19 @@
 
    </div>
  </div>
-                  <script>
-                    $('.create_event').on('click', (e) => {
-                      $('#myModal').modal("show");
-                    });
+ <script>
+   $('.register-form').on('submit', function() {
+     $('#btn-create').prop('disabled', true)
+   })
+   $('.create_event').on('click', (e) => {
+     $('#myModal').modal("show");
+   });
 
-                    function initialize(){
-                      var input = document.getElementById('searchTextField');
-                      var autocomplete = new google.maps.places.Autocomplete(input);
-                    }
+   function initialize(){
+     var input = document.getElementById('searchTextField');
+     var autocomplete = new google.maps.places.Autocomplete(input);
+   }
 
-                    google.maps.event.addDomListener(window, 'load', initialize);
-                  </script>
+   google.maps.event.addDomListener(window, 'load', initialize);
+ </script>
                 </nav>

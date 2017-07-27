@@ -41293,19 +41293,17 @@ var App = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+    _this.addNewMessage = function (message) {
+      _this.socket.emit("message", { message: message });
+    };
+
     _this.state = {
       messages: []
     };
-    _this.addNewMessage = _this.addNewMessage.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
-    key: 'addNewMessage',
-    value: function addNewMessage(message) {
-      this.socket.emit("message", { message: message });
-    }
-  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _this2 = this;
@@ -41863,7 +41861,6 @@ var ChatBar = function (_Component) {
       });
     };
 
-    _this.handleKeyPress = _this.handleKeyPress.bind(_this);
     _this.state = {
       message: "",
       isHidden: true

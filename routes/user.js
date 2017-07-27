@@ -16,6 +16,7 @@ module.exports = (dbHelper) => {
     .then((result)=>{
       if(result.length != 0){
         if(bcrypt.compareSync(req.body.password, result[0].password)){
+          // console.log(req.session);
           req.session.user = {
             id: result[0].id,
             avatar_url: result[0].avatar_url,
@@ -35,7 +36,7 @@ module.exports = (dbHelper) => {
     })
     .catch((error) => {
       console.log(error);
-      res.render('login', {
+      res.status(500).render('login', {
         error: "Something unexpected happened, try again :0"
       });
     });
