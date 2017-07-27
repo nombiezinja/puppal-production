@@ -43884,7 +43884,7 @@ var App = function (_React$Component) {
         bound_b: bound_b
       });
       return _axios2.default.get('/api/events/radius?boundalat=' + bound_a.lat + '&boundalng=' + bound_a.lng + '&boundblat=' + bound_b.lat + '&boundblng=' + bound_b.lng).then(function (response) {
-        _this.setState({ events: response.data });
+        _this.fetchData();
       });
     };
 
